@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samosa Web App - Dashboard</title>
+<link rel="stylesheet" href="/css/styles.css">
+<script src="/js/scripts.js" defer></script>
+</head>
+<body>
+	<header>
+		<h1>Samosa Web App</h1>
+		<nav>
+			<ul>
+				<li><a href="/new-orders">New Orders</a></li>
+				<li><a href="/in-progress-orders">In Progress</a></li>
+				<li><a href="/completed-orders">Completed</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<main>
+		<section id="dashboard">
+			<h2>Welcome to the Dashboard</h2>
+			<p>Here you can manage customer orders efficiently.</p>
+			<div class="order-summary">
+				<h3>Order Summary</h3>
+				<ul>
+					<li><strong>New Orders:</strong> <span id="new-order-count">0</span></li>
+					<li><strong>In Progress:</strong> <span id="in-progress-count">0</span></li>
+					<li><strong>Completed:</strong> <span id="completed-count">0</span></li>
+				</ul>
+			</div>
+		</section>
+	</main>
+
+	<footer>
+		<p>&copy; 2024 Bro Bono - Samosa Web App</p>
+	</footer>
+</body>
+</html>
