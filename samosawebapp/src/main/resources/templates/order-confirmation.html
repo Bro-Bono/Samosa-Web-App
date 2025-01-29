@@ -1,28 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Order Confirmation - Samosa Web App</title>
-<link rel="stylesheet" href="./css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - Samosa Web App</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-	<header>
-		<h1>Samosa Web App</h1>
-	</header>
+    <header>
+        <h1>Samosa Web App</h1>
+    </header>
 
-	<main>
-		<section id="confirmation">
-			<h2>Thank You for Your Order!</h2>
-			<p>Your order has been received and is being processed. You will
-				receive an email confirmation shortly.</p>
-			<p>If you have any questions, feel free to contact us.</p>
-			<a href="/order-form"><button>Place Another Order</button></a>
-		</section>
-	</main>
+    <main>
+        <section id="confirmation">
+            <h2>Thank You for Your Order!</h2>
+            <p>Your order has been received and is being processed. You will receive an email confirmation shortly.</p>
+            <p>If you have any questions, feel free to contact us.</p>
+            <a th:href="@{/order-form}"><button>Place Another Order</button></a>
+        </section>
+    </main>
 
-	<footer>
-		<p>&copy; 2024 Bro Bono - Samosa Web App</p>
-	</footer>
+    <footer>
+        <p>&copy; 2024 Bro Bono - Samosa Web App</p>
+    </footer>
 </body>
 </html>
