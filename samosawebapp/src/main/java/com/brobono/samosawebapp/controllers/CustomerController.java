@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.brobono.samosawebapp.models.Order;
+import com.brobono.samosawebapp.services.EmailService;
 import com.brobono.samosawebapp.services.OrderService;
 
 @Controller
@@ -14,6 +15,9 @@ public class CustomerController {
 	
     @Autowired
     private OrderService orderService;
+    
+    @Autowired
+    private EmailService emailService;
     
 	// Serve the Order Form for Customers
     @GetMapping("/order-form")
@@ -25,6 +29,7 @@ public class CustomerController {
     @PostMapping("/submit-order")
     public String submitOrder(@ModelAttribute Order order) {
         orderService.saveOrder(order);
+        emailService.sendNewOrderEmail(order.getCustomerEmail(), order);
         return "order-confirmation";
     }
 }
