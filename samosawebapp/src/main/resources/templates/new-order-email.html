@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thank you for your order!</title>
+</head>
+<body>
+    <p>Dear <span th:text="${customerName}">User</span>,</p>
+    <p>Thanks for placing an order! We will notify you when it's ready.</p>
+    <p>Order details: <br><span th:text="${orderDetails}">Details</span></p>
+    
+</body>
+</html>
