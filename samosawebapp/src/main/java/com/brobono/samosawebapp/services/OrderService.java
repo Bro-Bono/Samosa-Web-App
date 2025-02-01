@@ -32,11 +32,11 @@ public class OrderService {
 
 	public int getInProgressOrderCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return Math.toIntExact(orderRepository.countByStatus("IN PROGRESS"));
 	}
 
 	public int getCompletedOrderCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return Math.toIntExact(orderRepository.countByStatus("COMPLETED"));
 	}
 }
