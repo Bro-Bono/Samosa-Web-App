@@ -27,17 +27,16 @@ public class OrderService {
 	}
 
 	public int getNewOrderCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Math.toIntExact(orderRepository.countByStatus("NEW"));
 	}
 
 	public int getInProgressOrderCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return Math.toIntExact(orderRepository.countByStatus("IN PROGRESS"));
 	}
 
 	public int getCompletedOrderCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return Math.toIntExact(orderRepository.countByStatus("COMPLETED"));
 	}
 }
