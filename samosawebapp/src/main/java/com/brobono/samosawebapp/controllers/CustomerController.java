@@ -3,12 +3,16 @@ package com.brobono.samosawebapp.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 //import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.brobono.samosawebapp.models.Order;
 import com.brobono.samosawebapp.services.EmailService;
 import com.brobono.samosawebapp.services.OrderService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class CustomerController {
@@ -27,9 +31,15 @@ public class CustomerController {
     }
 	// Serve the Order Confirmation Page
     @PostMapping("/submit-order")
-    public String submitOrder(@ModelAttribute Order order) {
+    public String submitOrder(@Valid @ModelAttribute("order") Order order, BindingResult result, Model model) {
+    	if(result.hasErrors()) {
+    		//redirectAttributes.addFlashAttribute("errors", result.getAllErrors());
+            return "order-form"; 
+    	}
+        //redirectAttributes.addFlashAttribute("success", "Order placed successfully!");
         orderService.saveOrder(order);
         emailService.sendNewOrderEmail(order.getCustomerEmail(), order);
+        model.addAttribute("successMessage", "Order placed successfully!");
         return "order-confirmation";
     }
 }

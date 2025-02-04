@@ -76,3 +76,14 @@ button {
 button:hover {
 	background-color: #45a049;
 }
+
+.error {
+    color: red;
+    font-size: 0.9em;
+}
+
+.success {
+    color: green;
+    font-size: 1em;
+    font-weight: bold;
+}

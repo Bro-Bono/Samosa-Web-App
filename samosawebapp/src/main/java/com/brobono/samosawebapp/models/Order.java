@@ -1,6 +1,9 @@
 package com.brobono.samosawebapp.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name="`order`") //Escaped with backticks, don't know why but you're supposed to if using JPA/Hibernate
@@ -10,12 +13,18 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // tells Hibernate to let MySQL handle the ID generation
 	private Long id;
 	
+	@NotBlank(message = "Name is required")
+    @Size(min = 2, message = "Name must be at least 2 characters")
 	@Column(name="customer_name")
 	private String customerName;
 	
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
 	@Column(name="customer_email")
 	private String customerEmail;
 	
+    @NotBlank(message = "Order details are required")
+    @Size(min = 4, message = "Details must be at least 4 characters")
 	@Column(name="order_details")
 	private String orderDetails;
 	
