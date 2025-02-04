@@ -58,6 +58,8 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!--spring-boot-start-test includes JUnit 5 Jupiter by default so an additional call to junit is not needed here-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
