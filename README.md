@@ -11,10 +11,11 @@ Samosa Web App is a web-based order management system designed to help local foo
 - **Form Validation:** Ensures customers submit valid order details.
 
 ## Technologies Used
-- **Backend:** Java, Spring Boot, Spring MVC, Spring Mail
-- **Database:** MySQL
+- **Backend:** Java, Spring Boot, Spring MVC, Spring Mail, Spring Validation
+- **Database:** MySQL (hosted on Aiven during development)
 - **Frontend:** Thymeleaf, HTML, CSS
 - **Version Control:** GitHub
+- **Project Management:** Jira, Confluence
 
 ## Project Structure
 ```
