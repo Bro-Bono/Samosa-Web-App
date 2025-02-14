@@ -31,12 +31,14 @@ public class OrderService {
 	}
 
 	public int getInProgressOrderCount() {
-		// TODO Auto-generated method stub
 		return Math.toIntExact(orderRepository.countByStatus("IN PROGRESS"));
 	}
 
 	public int getCompletedOrderCount() {
-		// TODO Auto-generated method stub
 		return Math.toIntExact(orderRepository.countByStatus("COMPLETED"));
 	}
+	
+    public List<Order> getOrdersByStatus(String status) {
+        return orderRepository.findByStatus(status);
+    }
 }
