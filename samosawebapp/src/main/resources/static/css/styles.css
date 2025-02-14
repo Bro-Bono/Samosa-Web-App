@@ -1,10 +1,14 @@
 /* General Styles */
 body {
+	height: 100%;
+	width: 100%;
 	font-family: Arial, sans-serif;
 	margin: 0;
 	padding: 0;
 	background-color: #f9f9f9;
 	color: #333;
+	display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -14,23 +18,15 @@ header {
 	text-align: center;
 }
 
-footer {
-	text-align: center;
-	padding: 10px;
-	background-color: #4CAF50;
-	color: white;
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-}
-
 main {
 	padding: 20px;
-	max-width: 600px;
 	margin: 0 auto;
+	width: 100%;
 	background: white;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	border-radius: 8px;
+	flex: 1; /* Pushes the footer down */
+    padding-bottom: 50px; /* Space to avoid overlap */
 }
 
 /* Form Styles */
@@ -86,4 +82,66 @@ button:hover {
     color: green;
     font-size: 1em;
     font-weight: bold;
+}
+.order-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Order Container - 3 Column Layout */
+.orders-container {
+    display: flex;
+    flex-grow: 1; /* Makes it expand */
+    justify-content: space-between; /* Spread columns evenly */
+    gap: 20px; /* Space between columns */
+    padding: 20px;
+    width: 100%; /* Ensures full width */
+    max-width: 90vw; /* Prevents width overflow issues */
+}
+/* Individual Order Box */
+.order-box {
+    flex: 1; /* Equal width for all columns */
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    min-height: 300px; /* Ensures equal height */
+    min-width: 30%; /* Prevents shrinking too much */
+}
+
+/* Order Items - Alternating Colors */
+.order-item {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.odd {
+    background-color: #ffffff;
+}
+
+.even {
+    background-color: #f2f2f2;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .orders-container {
+        flex-direction: column; /* Stacks boxes on small screens */
+    }
+    
+    .order-box {
+        max-width: 100%;
+    }
+}
+
+footer {
+	background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    
 }
