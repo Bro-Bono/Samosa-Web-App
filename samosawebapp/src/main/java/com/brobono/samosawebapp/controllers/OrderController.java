@@ -3,13 +3,14 @@ package com.brobono.samosawebapp.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.brobono.samosawebapp.models.Order;
 import com.brobono.samosawebapp.services.OrderService;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("orders")
 public class OrderController {
 	  @Autowired
 	    private OrderService orderService;
@@ -34,13 +35,29 @@ public class OrderController {
 
 	    // Update an order's status
 	    @PutMapping("/{id}/status")
-	    public Order updateOrderStatus(@PathVariable Long id, @RequestParam String status) {
+	    public ResponseEntity<Order> updateOrderStatus(@PathVariable Long id, @RequestParam String status) {
+	        //debugging
+	    	System.out.println("Received request to update order " + id + " to status " + status);
+	        status = status.replace("%20", " "); // Handle encoded spaces
 	        Order order = orderService.getOrderById(id);
-	        if (order != null) {
-	            order.setStatus(status);
-	            return orderService.saveOrder(order);
+	        if (order == null) {
+	            System.out.println("Order not found!");
+	            return ResponseEntity.notFound().build();
 	        }
-	        return null;
+	        if (!status.equals("NEW") && !status.equals("IN PROGRESS") && !status.equals("COMPLETED")) {
+	            System.out.println("Invalid status update: " + status);
+	            return ResponseEntity.badRequest().build();
+	        }
+	        if (!status.equals("NEW") && !status.equals("IN PROGRESS") && !status.equals("COMPLETED")) {
+	            System.out.println("Invalid status update");
+	            return ResponseEntity.badRequest().build();
+	        }
+
+	        order.setStatus(status);
+	        Order updatedOrder = orderService.saveOrder(order);
+
+	        System.out.println("Order updated successfully!");
+	        return ResponseEntity.ok(updatedOrder);
 	    }
 	    
 //      WE WILL IMPLEMENT THIS LATER

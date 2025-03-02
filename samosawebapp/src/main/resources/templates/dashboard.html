@@ -29,7 +29,8 @@
 				<div class="order-box" id="new-orders">
 					<h3>New Orders</h3>
 					<div class="order-item" th:each="order, iterStat : ${newOrders}"
-						th:classappend="${iterStat.odd} ? 'odd' : 'even'">
+						th:classappend="${iterStat.odd} ? 'odd' : 'even'"
+						th:data-order-id="${order.id}" draggable="true">
 						<p>
 							<strong>Customer:</strong> <span th:text="${order.customerName}"></span>
 						</p>
@@ -44,7 +45,8 @@
 					<h3>In Progress</h3>
 					<div class="order-item"
 						th:each="order, iterStat : ${inProgressOrders}"
-						th:classappend="${iterStat.odd} ? 'odd' : 'even'">
+						th:classappend="${iterStat.odd} ? 'odd' : 'even'"
+						th:data-order-id="${order.id}" draggable="true">
 						<p>
 							<strong>Customer:</strong> <span th:text="${order.customerName}"></span>
 						</p>
@@ -59,7 +61,8 @@
 					<h3>Completed</h3>
 					<div class="order-item"
 						th:each="order, iterStat : ${completedOrders}"
-						th:classappend="${iterStat.odd} ? 'odd' : 'even'">
+						th:classappend="${iterStat.odd} ? 'odd' : 'even'"
+						th:data-order-id="${order.id}" draggable="true">
 						<p>
 							<strong>Customer:</strong> <span th:text="${order.customerName}"></span>
 						</p>
@@ -71,9 +74,44 @@
 			</div>
 		</section>
 	</main>
-
 	<footer>
 		<p>&copy; 2024 Bro Bono - Samosa Web App</p>
 	</footer>
+	<script>
+	document.querySelectorAll('.order-box').forEach(box => {
+	    box.addEventListener('dragover', event => event.preventDefault());
+
+	    box.addEventListener('drop', event => {
+	        event.preventDefault();
+	        const orderId = event.dataTransfer.getData("id"); 
+	        const newStatus = box.id.toUpperCase().replaceAll("-", " ").replace("ORDERS","").trim(); // Convert ID to status
+	        
+	        fetch(`/orders/13/status?status=${encodeURIComponent(newStatus)}`, {
+	            method: "PUT",
+	        })
+	        .then(response => {
+	            if (!response.ok) {
+	                throw new Error("Failed to update order status");
+	            }
+	            return response.json();
+	        })
+	        .then(updatedOrder => {
+	            console.log("Order updated:", updatedOrder);
+	            location.reload(); // Refresh the page (optional)
+	        })
+	        .catch(error => console.error("Error:", error));
+	    });
+	});
+
+
+document.querySelectorAll('[draggable="true"]').forEach(item => {
+    item.addEventListener('dragstart', function(event) {
+        event.dataTransfer.setData("id", event.target.getAttribute('data-order-id'));
+        console.log("Drag started:", event.target.getAttribute('data-order-id'));
+    });
+});
+
+</script>
+
 </body>
 </html>
