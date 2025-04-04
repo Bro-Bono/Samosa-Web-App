@@ -79,16 +79,33 @@
 	</footer>
 	<script>
 	document.querySelectorAll('.order-box').forEach(box => {
-	    box.addEventListener('dragover', event => event.preventDefault());
+	    box.addEventListener('dragover', event => {
+	        event.preventDefault();
+	    });
 
 	    box.addEventListener('drop', event => {
 	        event.preventDefault();
-	        const orderId = event.dataTransfer.getData("id"); 
-	        const newStatus = box.id.toUpperCase().replaceAll("-", " ").replace("ORDERS","").trim(); // Convert ID to status
 	        
-	        fetch(`/orders/13/status?status=${encodeURIComponent(newStatus)}`, {
-	            method: "PUT",
-	        })
+	        // Get dragged order ID
+	        const orderId = event.dataTransfer.getData("id");
+	        const draggedItem = document.querySelector(`[data-order-id='${orderId}']`);
+
+	        if (!orderId || !draggedItem) return;
+
+	        // Get new status based on the dropped column
+	        const newStatus = box.id.toUpperCase().replaceAll("-", " ").replace("ORDERS", "").trim();
+
+	        // Move the order to the new column in the UI
+	        box.appendChild(draggedItem);
+
+	        // Send the update request to the backend
+	        //fetch(`/orders/${orderId}/status?status=${encodeURIComponent(newStatus)}`, {
+	          //  method: "PUT",
+	        //})
+	        fetch(`/samosawebapp/orders/${orderId}/status?status=${encodeURIComponent(newStatus)}`, {
+    		method: "PUT"
+			})
+
 	        .then(response => {
 	            if (!response.ok) {
 	                throw new Error("Failed to update order status");
@@ -97,19 +114,18 @@
 	        })
 	        .then(updatedOrder => {
 	            console.log("Order updated:", updatedOrder);
-	            location.reload(); // Refresh the page (optional)
 	        })
 	        .catch(error => console.error("Error:", error));
 	    });
 	});
 
+	document.querySelectorAll('[draggable="true"]').forEach(item => {
+	    item.addEventListener('dragstart', function(event) {
+	        event.dataTransfer.setData("id", event.target.getAttribute('data-order-id'));
+	        console.log("Drag started:", event.target.getAttribute('data-order-id'));
+	    });
+	});
 
-document.querySelectorAll('[draggable="true"]').forEach(item => {
-    item.addEventListener('dragstart', function(event) {
-        event.dataTransfer.setData("id", event.target.getAttribute('data-order-id'));
-        console.log("Drag started:", event.target.getAttribute('data-order-id'));
-    });
-});
 
 </script>
 

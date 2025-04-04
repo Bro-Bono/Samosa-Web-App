@@ -10,7 +10,7 @@ import com.brobono.samosawebapp.models.Order;
 import com.brobono.samosawebapp.services.OrderService;
 
 @RestController
-@RequestMapping("orders")
+@RequestMapping("/orders")
 public class OrderController {
 	  @Autowired
 	    private OrderService orderService;
@@ -34,7 +34,7 @@ public class OrderController {
 	    }
 
 	    // Update an order's status
-	    @PutMapping("dashboard/{id}/status")
+	    @PutMapping("/{id}/status")
 	    public ResponseEntity<Order> updateOrderStatus(@PathVariable Long id, @RequestParam String status) {
 	        //debugging
 	    	System.out.println("Received request to update order " + id + " to status " + status);
