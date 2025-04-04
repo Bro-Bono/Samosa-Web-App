@@ -34,7 +34,7 @@ public class OrderController {
 	    }
 
 	    // Update an order's status
-	    @PutMapping("/{id}/status")
+	    @PutMapping("dashboard/{id}/status")
 	    public ResponseEntity<Order> updateOrderStatus(@PathVariable Long id, @RequestParam String status) {
 	        //debugging
 	    	System.out.println("Received request to update order " + id + " to status " + status);
@@ -46,10 +46,6 @@ public class OrderController {
 	        }
 	        if (!status.equals("NEW") && !status.equals("IN PROGRESS") && !status.equals("COMPLETED")) {
 	            System.out.println("Invalid status update: " + status);
-	            return ResponseEntity.badRequest().build();
-	        }
-	        if (!status.equals("NEW") && !status.equals("IN PROGRESS") && !status.equals("COMPLETED")) {
-	            System.out.println("Invalid status update");
 	            return ResponseEntity.badRequest().build();
 	        }
 
@@ -67,3 +63,4 @@ public class OrderController {
 //	        orderService.deleteOrder(id);
 //	    }
 }
+
