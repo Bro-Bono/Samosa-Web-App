@@ -9,10 +9,12 @@ body {
 	color: #333;
 	display: flex;
     flex-direction: column;
+    overflow-x: hidden; /* prevents the horizontal scroll thing */
+    
 }
 
 header {
-	background-color: #4CAF50;
+	background-color: #0077b6;
 	color: white;
 	padding: 15px 10px;
 	text-align: center;
@@ -70,7 +72,7 @@ button {
 }
 
 button:hover {
-	background-color: #45a049;
+	background-color: #4CAF50;
 }
 
 .error {
@@ -88,55 +90,60 @@ button:hover {
     border-bottom: 1px solid #ddd;
 }
 
-/* Order Container - 3 Column Layout */
-.orders-container {
+.dashboard-container {
     display: flex;
-    flex-grow: 1; /* Makes it expand */
-    justify-content: space-between; /* Spread columns evenly */
-    gap: 20px; /* Space between columns */
+    flex-wrap: wrap; /* Makes it expand */
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px; /* Space between columns */
     padding: 20px;
     width: 100%; /* Ensures full width */
-    max-width: 90vw; /* Prevents width overflow issues */
+    max-width: 1800px; /* Prevents width overflow issues */
+    margin: 0 auto;  
+    box-sizing: border-box;
+    
 }
+
 /* Individual Order Box */
 .order-box {
-    flex: 1; /* Equal width for all columns */
-    background: white;
+    flex: 1 1 300px; /* Equal width for all columns */
+    background: #f2f2f2;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    min-height: 300px; /* Ensures equal height */
-    min-width: 30%; /* Prevents shrinking too much */
+    min-height: 400px; /* Ensures equal height */
+    min-width: 250px; /* Prevents shrinking too much */
+}
+
+.summary-box {
+    flex: 1 1 300px; /* Equal width for all columns */
+    background: #5e6870;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    min-height: 400px; /* Ensures equal height */
+    min-width: 250px; /* Prevents shrinking too much */
 }
 
 /* Order Items - Alternating Colors */
 .order-item {
+	background: #ffffff;
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
 }
 
-.odd {
-    background-color: #ffffff;
-}
-
-.even {
-    background-color: #f2f2f2;
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
-    .orders-container {
-        flex-direction: column; /* Stacks boxes on small screens */
-    }
-    
-    .order-box {
-        max-width: 100%;
-    }
+  .dashboard-container {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 footer {
-	background-color: #4CAF50;
+	background-color: #0077b6;
     color: white;
     text-align: center;
     padding: 10px 0;
