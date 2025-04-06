@@ -13,23 +13,11 @@
 
 	<main>
 		<section id="dashboard">
-			<h2>Welcome to the Dashboard</h2>
-			<p>Here you can manage customer orders efficiently.</p>
-			<h3>A Quick Summary</h3>
-			<ul>
-				<li><strong>New Orders:</strong> <span id="new-order-count"
-					th:text="${newOrderCount}">0</span></li>
-				<li><strong>In Progress:</strong> <span id="in-progress-count"
-					th:text="${inProgressCount}">0</span></li>
-				<li><strong>Completed:</strong> <span id="completed-count"
-					th:text="${completedCount}">0</span></li>
-			</ul>
-			<div class="orders-container">
+			<div class="dashboard-container">
 				<!-- New Orders -->
 				<div class="order-box" id="new-orders">
 					<h3>New Orders</h3>
 					<div class="order-item" th:each="order, iterStat : ${newOrders}"
-						th:classappend="${iterStat.odd} ? 'odd' : 'even'"
 						th:data-order-id="${order.id}" draggable="true">
 						<p>
 							<strong>Customer:</strong> <span th:text="${order.customerName}"></span>
@@ -45,7 +33,6 @@
 					<h3>In Progress</h3>
 					<div class="order-item"
 						th:each="order, iterStat : ${inProgressOrders}"
-						th:classappend="${iterStat.odd} ? 'odd' : 'even'"
 						th:data-order-id="${order.id}" draggable="true">
 						<p>
 							<strong>Customer:</strong> <span th:text="${order.customerName}"></span>
@@ -61,7 +48,6 @@
 					<h3>Completed</h3>
 					<div class="order-item"
 						th:each="order, iterStat : ${completedOrders}"
-						th:classappend="${iterStat.odd} ? 'odd' : 'even'"
 						th:data-order-id="${order.id}" draggable="true">
 						<p>
 							<strong>Customer:</strong> <span th:text="${order.customerName}"></span>
@@ -70,6 +56,19 @@
 							<strong>Order:</strong> <span th:text="${order.orderDetails}"></span>
 						</p>
 					</div>
+				</div>
+				<div class="summary-box">
+					<h2>Welcome to the Dashboard</h2>
+					<p>Here you can manage customer orders efficiently.</p>
+					<h3>A Quick Summary</h3>
+					<ul>
+						<li><strong>New Orders:</strong> <span id="new-order-count"
+							th:text="${newOrderCount}">0</span></li>
+						<li><strong>In Progress:</strong> <span
+							id="in-progress-count" th:text="${inProgressCount}">0</span></li>
+						<li><strong>Completed:</strong> <span id="completed-count"
+							th:text="${completedCount}">0</span></li>
+					</ul>
 				</div>
 			</div>
 		</section>
