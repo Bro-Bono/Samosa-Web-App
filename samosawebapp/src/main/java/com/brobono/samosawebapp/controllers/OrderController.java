@@ -1,6 +1,8 @@
 package com.brobono.samosawebapp.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +56,15 @@ public class OrderController {
 
 	        System.out.println("Order updated successfully!");
 	        return ResponseEntity.ok(updatedOrder);
+	    }
+	    
+	    @GetMapping("/summary")
+	    public Map<String, Integer> getOrderSummary() {
+	        Map<String, Integer> summary = new HashMap<>();
+	        summary.put("newOrders", orderService.getNewOrderCount());
+	        summary.put("inProgress", orderService.getInProgressOrderCount());
+	        summary.put("completed", orderService.getCompletedOrderCount());;
+	        return summary;
 	    }
 	    
 //      WE WILL IMPLEMENT THIS LATER

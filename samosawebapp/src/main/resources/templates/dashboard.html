@@ -97,10 +97,6 @@
 	        // Move the order to the new column in the UI
 	        box.appendChild(draggedItem);
 
-	        // Send the update request to the backend
-	        //fetch(`/orders/${orderId}/status?status=${encodeURIComponent(newStatus)}`, {
-	          //  method: "PUT",
-	        //})
 	        fetch(`/samosawebapp/orders/${orderId}/status?status=${encodeURIComponent(newStatus)}`, {
     		method: "PUT"
 			})
@@ -113,7 +109,20 @@
 	        })
 	        .then(updatedOrder => {
 	            console.log("Order updated:", updatedOrder);
+	            return fetch("/samosawebapp/orders/summary");
+
 	        })
+	                .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch summary counts");
+            }
+            return response.json();
+        })
+        .then(summary => {
+            document.getElementById("new-order-count").textContent = summary.newOrders;
+            document.getElementById("in-progress-count").textContent = summary.inProgress;
+            document.getElementById("completed-count").textContent = summary.completed;
+        })
 	        .catch(error => console.error("Error:", error));
 	    });
 	});
