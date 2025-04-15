@@ -57,18 +57,26 @@ class CustomerControllerTest {
 
         mockMvc.perform(post("/submit-order")
                 .flashAttr("order", order)) // ✅ Simulates a form submission
-                .andExpect(status().isOk()) // Expect HTTP 200
-                .andExpect(view().name("order-confirmation")) // Expect confirmation page
-                .andExpect(model().attributeExists("successMessage")); // Success message should exist
+        		.andExpect(status().is3xxRedirection()) // Expect 302 redirect
+        		.andExpect(redirectedUrl("/order-confirmation"));
+    }
+    
+    @Test
+    void testOrderConfirmationPage() throws Exception {
+    	mockMvc.perform(get("/order-confirmation")
+    	        .flashAttr("successMessage", "Order submitted successfully!"))
+    	        .andExpect(status().isOk())
+    	        .andExpect(view().name("order-confirmation"))
+    	        .andExpect(model().attribute("successMessage", "Order submitted successfully!"));
     }
 
     // ✅ Test order submission with validation error (empty order)
     @Test
     void testSubmitOrder_ValidationError() throws Exception {
-        Order order = new Order(); // Missing required fields
+        Order invalidOrder = new Order(); // Missing required fields
 
         mockMvc.perform(post("/submit-order")
-                .flashAttr("order", order))
+                .flashAttr("order", invalidOrder))
                 .andExpect(status().isOk()) // Should stay on order-form page
                 .andExpect(view().name("order-form")) // Expect form page to reload
                 .andExpect(model().attributeExists("order")); // The invalid order should still be in the model
