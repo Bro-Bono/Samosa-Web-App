@@ -67,6 +67,12 @@ public class OrderController {
 	        return summary;
 	    }
 	    
+	    @PostMapping("/archive/{id}")
+	    public String archiveOrder(@PathVariable Long id) {
+	        orderService.archiveOrder(id);
+	        return "redirect:/dashboard"; // reloads the dashboard
+	    }
+	    
 //      WE WILL IMPLEMENT THIS LATER
 //	    // Delete an order
 //	    @DeleteMapping("/{id}")
