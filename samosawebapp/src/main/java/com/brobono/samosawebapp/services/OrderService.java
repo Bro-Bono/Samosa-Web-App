@@ -1,11 +1,14 @@
 package com.brobono.samosawebapp.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.brobono.samosawebapp.models.ArchivedOrder;
 import com.brobono.samosawebapp.models.Order;
+import com.brobono.samosawebapp.repositories.ArchiveRepository;
 import com.brobono.samosawebapp.repositories.OrderRepository;
 
 @Service
@@ -41,4 +44,23 @@ public class OrderService {
     public List<Order> getOrdersByStatus(String status) {
         return orderRepository.findByStatus(status);
     }
-}
+    
+
+    @Autowired
+    private ArchiveRepository archivedOrderRepository;
+
+    public void archiveOrder(Long orderId) {
+    	Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
+
+            // Convert Order to ArchivedOrder
+            ArchivedOrder archivedOrder = new ArchivedOrder();
+            archivedOrder.setCustomerName(order.getCustomerName());
+            archivedOrder.setStatus(order.getStatus());
+            archivedOrder.setCompletedAt(LocalDateTime.now());
+            // Copy other fields
+
+            archivedOrderRepository.save(archivedOrder);
+            orderRepository.deleteById(orderId);
+        }
+  }
+

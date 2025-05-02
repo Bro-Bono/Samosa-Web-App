@@ -24,10 +24,10 @@ class CustomerControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    
     private OrderService orderService;
 
-    @MockBean
+    
     private EmailService emailService;
 
     @BeforeEach
