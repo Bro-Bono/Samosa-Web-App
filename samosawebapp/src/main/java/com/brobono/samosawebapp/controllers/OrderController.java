@@ -67,17 +67,10 @@ public class OrderController {
 	        return summary;
 	    }
 	    
-	    @PostMapping("/archive/{id}")
-	    public String archiveOrder(@PathVariable Long id) {
+	    @PostMapping("/{id}/delete")
+	    public String deleteAndArchiveOrder(@PathVariable Long id) {
 	        orderService.archiveOrder(id);
-	        return "redirect:/dashboard"; // reloads the dashboard
+	        return "redirect:/dashboard"; 
 	    }
-	    
-//      WE WILL IMPLEMENT THIS LATER
-//	    // Delete an order
-//	    @DeleteMapping("/{id}")
-//	    public void deleteOrder(@PathVariable Long id) {
-//	        orderService.deleteOrder(id);
-//	    }
 }
 

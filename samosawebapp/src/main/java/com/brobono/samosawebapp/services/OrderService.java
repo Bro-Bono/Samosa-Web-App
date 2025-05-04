@@ -2,13 +2,14 @@ package com.brobono.samosawebapp.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.brobono.samosawebapp.models.ArchivedOrder;
 import com.brobono.samosawebapp.models.Order;
-import com.brobono.samosawebapp.repositories.ArchiveRepository;
+import com.brobono.samosawebapp.repositories.ArchivedOrderRepository;
 import com.brobono.samosawebapp.repositories.OrderRepository;
 
 @Service
@@ -47,20 +48,32 @@ public class OrderService {
     
 
     @Autowired
-    private ArchiveRepository archivedOrderRepository;
+    private ArchivedOrderRepository archivedOrderRepository;
 
     public void archiveOrder(Long orderId) {
-    	Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
 
-            // Convert Order to ArchivedOrder
+        if (optionalOrder.isPresent()) {
+            Order order = optionalOrder.get();
+
+            // If not already completed, mark as cancelled
+            if (!"COMPLETED".equalsIgnoreCase(order.getStatus())) {
+                order.setStatus("CANCELLED");
+            }
+
+            // Copy data to archived order
             ArchivedOrder archivedOrder = new ArchivedOrder();
+            archivedOrder.setId(order.getId());
             archivedOrder.setCustomerName(order.getCustomerName());
-            archivedOrder.setStatus(order.getStatus());
-            archivedOrder.setCompletedAt(LocalDateTime.now());
-            // Copy other fields
+            archivedOrder.setCustomerEmail(order.getCustomerEmail());
+            archivedOrder.setOrderDetails(order.getOrderDetails());
+            archivedOrder.setStatus(order.getStatus()); // Will now be CANCELLED or COMPLETED
+            archivedOrder.setArchivedAt(LocalDateTime.now());
 
             archivedOrderRepository.save(archivedOrder);
-            orderRepository.deleteById(orderId);
+            orderRepository.delete(order);
         }
+    }
+
   }
 
