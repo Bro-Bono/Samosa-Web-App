@@ -36,13 +36,18 @@
 											class="order-item mb-3 p-2 border rounded bg-light position-relative"
 											th:data-order-id="${order.id}" draggable="true">
 											<!-- top-right square delete button -->
-											<form th:action="@{/orders/{id}/delete(id=${order.id})}"
-												method="post" class="position-absolute top-0 end-0 m-2">
-												<button type="submit" class="btn btn-sm btn-danger p-0"
-													style="width: 24px; height: 24px; line-height: 24px; text-align: center; font-weight: bold;"
-													onclick="return confirm('Cancel & archive this order?');">
-													&times;</button>
-											</form>
+											<div class="dropdown position-absolute top-0 end-0 m-2">
+												<button class="btn btn-sm btn-light" type="button"
+													id="dropdownMenuButton" data-bs-toggle="dropdown"
+													aria-expanded="false">&#x22EE;</button>
+												<ul class="dropdown-menu"
+													aria-labelledby="dropdownMenuButton">
+													<li>
+														<button class="dropdown-item text-danger"
+															th:onclick="cancelOrder('[[${order.id}]]')">Cancel</button>
+													</li>
+												</ul>
+											</div>
 											<p>
 												<strong>Customer:</strong> <span
 													th:text="${order.customerName}"></span>
@@ -67,13 +72,18 @@
 											class="order-item mb-3 p-2 border rounded bg-light position-relative"
 											th:data-order-id="${order.id}" draggable="true">
 											<!-- top-right square delete button -->
-											<form th:action="@{/orders/{id}/delete(id=${order.id})}"
-												method="post" class="position-absolute top-0 end-0 m-2">
-												<button type="submit" class="btn btn-sm btn-danger p-0"
-													style="width: 24px; height: 24px; line-height: 24px; text-align: center; font-weight: bold;"
-													onclick="return confirm('Cancel & archive this order?');">
-													&times;</button>
-											</form>
+											<div class="dropdown position-absolute top-0 end-0 m-2">
+												<button class="btn btn-sm btn-light" type="button"
+													id="dropdownMenuButton" data-bs-toggle="dropdown"
+													aria-expanded="false">&#x22EE;</button>
+												<ul class="dropdown-menu"
+													aria-labelledby="dropdownMenuButton">
+													<li>
+														<button class="dropdown-item text-danger"
+															th:onclick="cancelOrder('[[${order.id}]]')">Cancel</button>
+													</li>
+												</ul>
+											</div>
 											<p>
 												<strong>Customer:</strong> <span
 													th:text="${order.customerName}"></span>
@@ -98,13 +108,18 @@
 											class="order-item mb-3 p-2 border rounded bg-light position-relative"
 											th:data-order-id="${order.id}" draggable="true">
 											<!-- top-right square delete button -->
-											<form th:action="@{/orders/{id}/delete(id=${order.id})}"
-												method="post" class="position-absolute top-0 end-0 m-2">
-												<button type="submit" class="btn btn-sm btn-danger p-0"
-													style="width: 24px; height: 24px; line-height: 24px; text-align: center; font-weight: bold;"
-													onclick="return confirm('Archive the completed order?');">
-													&times;</button>
-											</form>
+											<div class="dropdown position-absolute top-0 end-0 m-2">
+												<button class="btn btn-sm btn-light" type="button"
+													id="dropdownMenuButton" data-bs-toggle="dropdown"
+													aria-expanded="false">&#x22EE;</button>
+												<ul class="dropdown-menu"
+													aria-labelledby="dropdownMenuButton">
+													<li>
+														<button class="dropdown-item text-danger"
+															th:onclick="archiveOrder('[[${order.id}]]')">Archive</button>
+													</li>
+												</ul>
+											</div>
 											<p>
 												<strong>Customer:</strong> <span
 													th:text="${order.customerName}"></span>
@@ -207,5 +222,32 @@
       });
     });
   </script>
+	<script>
+	function cancelOrder(orderId) {
+		if (confirm("Cancel this order?")) {
+			fetch(`samosawebapp/orders/${orderId}/archive`, { method: 'POST' })
+				.then(res => {
+					if (res.ok) {
+						document.querySelector(`[data-order-id="${orderId}"]`).remove();
+					} else {
+						alert("Failed to cancel.");
+					}
+				});
+		}
+	}
+
+	function archiveOrder(orderId) {
+		if (confirm("Archive this order?")) {
+			fetch(`samosawebapp/orders/${orderId}/archive`, { method: 'POST' })
+				.then(res => {
+					if (res.ok) {
+						document.querySelector(`[data-order-id="${orderId}"]`).remove();
+					} else {
+						alert("Failed to archive.");
+					}
+				});
+		}
+	}
+</script>
 </body>
 </html>
