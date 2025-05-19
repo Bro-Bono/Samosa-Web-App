@@ -69,9 +69,9 @@ public class OrderController {
 	}
 
 	@PostMapping("/{id}/archive")
-	@ResponseBody
 	public ResponseEntity<?> archiveOrder(@PathVariable Long id) {
-		orderService.archiveOrder(id); // same logic for cancel or archive
+		System.out.println("Archiving order " + id); // debug
+		orderService.archiveOrder(id); // same logic for cancel and archive
 		return ResponseEntity.ok().build();
 	}
 }
