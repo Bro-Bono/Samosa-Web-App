@@ -248,7 +248,7 @@
       fetch(`${BASE_URL}/orders/${orderId}/status?status=${encodeURIComponent(newStatus)}`, { method: "PUT" })
         .then(res => {
           if (!res.ok) throw new Error("Failed to update order status");
-          const button = draggedItem.querySelector("button");
+          const button = draggedItem.querySelector("button.dropdown-item");
           if (newStatus === "COMPLETED") {
         	  button.textContent = "Archive";
         	  button.onclick = () => archiveOrder(orderId);
