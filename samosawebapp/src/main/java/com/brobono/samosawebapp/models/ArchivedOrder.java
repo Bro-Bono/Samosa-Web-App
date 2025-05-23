@@ -24,6 +24,9 @@ public class ArchivedOrder {
 
     @Column(name = "archived_at", nullable = false)
     private LocalDateTime archivedAt;
+    
+    @Column(name = "ordered_at", nullable = false)
+    private LocalDateTime orderedAt;
 
 	public Long getId() {
 		return id;
@@ -73,5 +76,13 @@ public class ArchivedOrder {
 		this.archivedAt = archivedAt;
 	}
     
+	
+	public LocalDateTime getOrderedAt() {
+		return orderedAt;
+	}
+
+	public void setOrderedAt(LocalDateTime orderedAt) {
+		this.orderedAt = orderedAt;
+	}
     
 }

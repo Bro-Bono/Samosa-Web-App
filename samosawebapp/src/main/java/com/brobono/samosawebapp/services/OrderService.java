@@ -19,6 +19,7 @@ public class OrderService {
 	private OrderRepository orderRepository;
 
 	public Order saveOrder(Order order) {
+		order.setOrderedAt(LocalDateTime.now());
 		return orderRepository.save(order);
 	}
 
@@ -69,6 +70,7 @@ public class OrderService {
             archivedOrder.setOrderDetails(order.getOrderDetails());
             archivedOrder.setStatus(order.getStatus()); // Will now be CANCELLED or COMPLETED
             archivedOrder.setArchivedAt(LocalDateTime.now());
+            archivedOrder.setOrderedAt(order.getOrderedAt());
 
             archivedOrderRepository.save(archivedOrder);
             orderRepository.delete(order);
