@@ -1,5 +1,7 @@
 package com.brobono.samosawebapp.models;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -30,6 +32,10 @@ public class Order {
 	
     @Column(name = "status", nullable = false, columnDefinition = "VARCHAR(50) DEFAULT 'NEW'")
     private String status = "NEW"; // Default value when customer creates an order
+    
+
+    @Column(name = "archived_at", nullable = false)
+    private LocalDateTime archivedAt;
 
 	public Long getId() {
 		return id;
@@ -70,4 +76,13 @@ public class Order {
     public void setStatus(String status) {
         this.status = status;
     }
+    
+	public LocalDateTime getArchivedAt() {
+		return archivedAt;
+	}
+
+	public void setArchivedAt(LocalDateTime archivedAt) {
+		this.archivedAt = archivedAt;
+	}
+    
 }
