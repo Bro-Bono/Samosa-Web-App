@@ -34,8 +34,8 @@ public class Order {
     private String status = "NEW"; // Default value when customer creates an order
     
 
-    @Column(name = "archived_at", nullable = false)
-    private LocalDateTime archivedAt;
+    @Column(name = "ordered_at", nullable = false)
+    private LocalDateTime orderedAt;
 
 	public Long getId() {
 		return id;
@@ -77,12 +77,12 @@ public class Order {
         this.status = status;
     }
     
-	public LocalDateTime getArchivedAt() {
-		return archivedAt;
+	public LocalDateTime getOrderedAt() {
+		return orderedAt;
 	}
 
-	public void setArchivedAt(LocalDateTime archivedAt) {
-		this.archivedAt = archivedAt;
+	public void setOrderedAt(LocalDateTime orderedAt) {
+		this.orderedAt = orderedAt;
 	}
     
 }
