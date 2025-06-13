@@ -22,10 +22,10 @@ public class ArchivedOrder {
     @Column(name = "status")
     private String status;
 
-    @Column(name = "archived_at", nullable = false)
+    @Column(name = "archived_at", nullable = false, updatable = false)
     private LocalDateTime archivedAt;
     
-    @Column(name = "ordered_at", nullable = false)
+    @Column(name = "ordered_at", nullable = false, updatable = false)
     private LocalDateTime orderedAt;
 
 	public Long getId() {

@@ -39,7 +39,6 @@ public class BusinessOwnerController {
         model.addAttribute("newOrders", newOrders);
         model.addAttribute("inProgressOrders", inProgressOrders);
         model.addAttribute("completedOrders", completedOrders);
-        
 
         return "dashboard"; // Thymeleaf template for the dashboard
     }

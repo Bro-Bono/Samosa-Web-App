@@ -52,10 +52,10 @@ public class OrderController {
 		}
 
 		order.setStatus(status);
-		Order updatedOrder = orderService.saveOrder(order);
+		orderService.saveOrder(order);
 
-		System.out.println("Order updated successfully!");
-		return ResponseEntity.ok(updatedOrder);
+		System.out.println("Order updated successfully!" + " and orderedAt is " + order.getOrderedAtIso());
+		return ResponseEntity.ok(order);
 	}
 
 	@GetMapping("/summary")

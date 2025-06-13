@@ -1,6 +1,7 @@
 package com.brobono.samosawebapp.models;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -34,7 +35,7 @@ public class Order {
     private String status = "NEW"; // Default value when customer creates an order
     
 
-    @Column(name = "ordered_at", nullable = false)
+    @Column(name = "ordered_at", nullable = false, updatable = false)
     private LocalDateTime orderedAt;
 
 	public Long getId() {
@@ -80,6 +81,17 @@ public class Order {
 	public LocalDateTime getOrderedAt() {
 		return orderedAt;
 	}
+	
+	/**
+	 * @author Ali
+	 * @return orderedAt in ISO (short for ISO 8601), which is the 
+	 * international standard format for date and time strings 
+	 */
+	public String getOrderedAtIso() {
+	    if (orderedAt == null) return "";
+	    return orderedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+	}
+
 
 	public void setOrderedAt(LocalDateTime orderedAt) {
 		this.orderedAt = orderedAt;
