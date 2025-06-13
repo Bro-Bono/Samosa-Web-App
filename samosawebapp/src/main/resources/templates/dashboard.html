@@ -56,6 +56,10 @@
 												<strong>Order:</strong> <span
 													th:text="${order.orderDetails}"></span>
 											</p>
+											<p class="mb-1">
+												<span class="elapsed-time text-muted"
+													th:attr="data-ordered-at=${order.orderedAtIso}"></span>
+											</p>
 										</div>
 									</div>
 								</div>
@@ -91,6 +95,10 @@
 											<p>
 												<strong>Order:</strong> <span
 													th:text="${order.orderDetails}"></span>
+											</p>
+											<p class="mb-1">
+												<span class="elapsed-time text-muted"
+													th:attr="data-ordered-at=${order.orderedAtIso}"></span>
 											</p>
 										</div>
 									</div>
@@ -128,6 +136,10 @@
 												<strong>Order:</strong> <span
 													th:text="${order.orderDetails}"></span>
 											</p>
+											<p class="mb-1">
+												<span class="elapsed-time text-muted"
+													th:attr="data-ordered-at=${order.orderedAtIso}"></span>
+											</p>
 										</div>
 									</div>
 								</div>
@@ -144,22 +156,22 @@
 							<div
 								class="card-body text-center d-flex flex-column justify-content-between">
 								<div>
-									<h4 class="mb-3 text-success">Welcome to the Dashboard</h4>
-									<p class="mb-4">Here you can manage customer orders
+									<h4 class="mb-3">Welcome to your Dashboard</h4>
+									<p class="mb-4">Here you can view and manage  your customer's orders
 										efficiently.</p>
-									<h5 class="mb-3">A Quick Summary</h5>
+									<h5 class="mb-3">Work Summary</h5>
 
 									<!-- Updated summary items -->
 									<div class="d-flex flex-column gap-2">
-										<div class="border rounded p-2 bg-light shadow-sm">
+										<div class="border border-primary rounded p-2 shadow-sm text-primary">
 											<strong>New Orders:</strong> <span id="new-order-count"
 												th:text="${newOrderCount}">0</span>
 										</div>
-										<div class="border rounded p-2 bg-light shadow-sm">
+										<div class="border border-warning rounded p-2 shadow-sm text-warning">
 											<strong>In Progress:</strong> <span id="in-progress-count"
 												th:text="${inProgressCount}">0</span>
 										</div>
-										<div class="border rounded p-2 bg-light shadow-sm">
+										<div class="border border-success rounded p-2 shadow-sm text-success">
 											<strong>Completed:</strong> <span id="completed-count"
 												th:text="${completedCount}">0</span>
 										</div>
@@ -188,6 +200,31 @@
 	<!-- Drag-and-Drop Logic -->
 	<script>
   const BASE_URL = "/samosawebapp";
+  function getElapsedTime(orderedAt) {
+	  const placedAt = new Date(orderedAt)
+	  const current = new Date();
+	  const diffMills = current - placedAt;
+	  
+	  const minutes = Math.floor(diffMills/60000);
+	  if(minutes < 1) return "Just now";
+	  if(minutes < 60) return `${minutes} minutes ago`;
+	  
+	  const hours = Math.floor(minutes/60);
+	  if(hours < 24) return `${hours} hours ago`;
+	  
+	  const days = Math.floor(hours/24);
+	  if (days < 7) return `${days} day${days !== 1 ? 's' : ''} ago`;
+	  
+	  return "More than a week ago";
+	  
+  }
+  function updateElapsedTimes() {
+	  document.querySelectorAll('.elapsed-time').forEach(span => {
+	    const orderedAt = span.getAttribute('data-ordered-at');
+	    console.log('OrderedAt:', orderedAt);
+	    span.textContent = getElapsedTime(orderedAt);
+	  });
+	}
   function updateOrderSummary() {
 	  fetch(`${BASE_URL}/orders/summary`)
 	    .then(res => {
@@ -231,8 +268,13 @@
 	      .catch(error => console.error("Archive error:", error));
 	  }
 	}
-
-
+	
+	// Run time elapsed calculation once immediately
+	updateElapsedTimes();
+	
+	// Then run every minute (60000 ms)
+	setInterval(updateElapsedTimes, 60000);
+	
   document.querySelectorAll('.order-box, #new-orders, #in-progress-orders, #completed-orders').forEach(box => {
     box.addEventListener('dragover', event => event.preventDefault());
 
