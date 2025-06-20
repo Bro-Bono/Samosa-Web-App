@@ -1,5 +1,8 @@
 src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 const BASE_URL = "/samosawebapp";
+
+document.getElementById("year").innerHTML = (new Date().getFullYear());
+
 function getElapsedTime(orderedAt) {
 	const placedAt = new Date(orderedAt)
 	const current = new Date();
@@ -16,7 +19,6 @@ function getElapsedTime(orderedAt) {
 	if (days < 7) return `${days} day${days !== 1 ? 's' : ''} ago`;
 
 	return "More than a week ago";
-
 }
 function updateElapsedTimes() {
 	document.querySelectorAll('.elapsed-time').forEach(span => {
