@@ -56,6 +56,45 @@ function cancelOrder(orderId) {
 	}
 }
 
+function editOrder(orderId) {
+  fetch(`${BASE_URL}/orders/${orderId}`)
+    .then(res => res.json())
+    .then(order => {
+      document.getElementById("editOrderId").value = order.id;
+      document.getElementById("editCustomerName").value = order.customerName;
+      document.getElementById("editOrderDetails").value = order.orderDetails;
+
+      const modal = new bootstrap.Modal(document.getElementById("editOrderModal"));
+      modal.show();
+    })
+    .catch(err => console.error("Failed to fetch order:", err));
+}
+
+function submitOrderEdit(event) {
+  event.preventDefault();
+
+  const orderId = document.getElementById("editOrderId").value;
+  const updatedOrder = {
+    customerName: document.getElementById("editCustomerName").value,
+    orderDetails: document.getElementById("editOrderDetails").value,
+  };
+
+  fetch(`${BASE_URL}/orders/${orderId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updatedOrder)
+  })
+    .then(res => {
+      if (res.ok) {
+        alert("Order updated successfully!");
+        location.reload(); // Optional: or update the DOM manually
+      } else {
+        alert("Failed to update order.");
+      }
+    })
+    .catch(err => console.error("Update error:", err));
+}
+
 function archiveOrder(orderId) {
 	if (confirm("Archive this order?")) {
 		fetch(`${BASE_URL}/orders/${orderId}/archive`, { method: 'POST' })

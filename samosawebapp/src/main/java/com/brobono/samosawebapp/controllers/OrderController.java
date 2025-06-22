@@ -3,6 +3,7 @@ package com.brobono.samosawebapp.controllers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -74,4 +75,23 @@ public class OrderController {
 		orderService.archiveOrder(id); // same logic for cancel and archive
 		return ResponseEntity.ok().build();
 	}
+	
+	@PutMapping("/{id}")
+	@ResponseBody
+	public ResponseEntity<?> updateOrder(@PathVariable Long id, @RequestBody Order updatedOrder) {
+		Order order = orderService.getOrderById(id);
+	    
+	    if (order == null) {
+	        return ResponseEntity.notFound().build();
+	    }
+
+	    //Order existingOrder = order.getOrderDetails();
+	    order.setCustomerName(updatedOrder.getCustomerName());
+	    order.setOrderDetails(updatedOrder.getOrderDetails());
+	    
+	    orderService.saveOrder(order);
+
+	    return ResponseEntity.ok().build();
+	}
+
 }
