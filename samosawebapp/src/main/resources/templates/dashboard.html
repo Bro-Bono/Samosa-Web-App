@@ -9,6 +9,10 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+<!-- ✅ Bootstrap Bundle JS -->
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
 </head>
 <body class="bg-light">
 
@@ -56,6 +60,10 @@
 												<strong>Order:</strong> <span
 													th:text="${order.orderDetails}"></span>
 											</p>
+											<p class="mb-1">
+												<span class="elapsed-time text-muted"
+													th:attr="data-ordered-at=${order.orderedAtIso}"></span>
+											</p>
 										</div>
 									</div>
 								</div>
@@ -91,6 +99,10 @@
 											<p>
 												<strong>Order:</strong> <span
 													th:text="${order.orderDetails}"></span>
+											</p>
+											<p class="mb-1">
+												<span class="elapsed-time text-muted"
+													th:attr="data-ordered-at=${order.orderedAtIso}"></span>
 											</p>
 										</div>
 									</div>
@@ -128,6 +140,10 @@
 												<strong>Order:</strong> <span
 													th:text="${order.orderDetails}"></span>
 											</p>
+											<p class="mb-1">
+												<span class="elapsed-time text-muted"
+													th:attr="data-ordered-at=${order.orderedAtIso}"></span>
+											</p>
 										</div>
 									</div>
 								</div>
@@ -144,22 +160,25 @@
 							<div
 								class="card-body text-center d-flex flex-column justify-content-between">
 								<div>
-									<h4 class="mb-3 text-success">Welcome to the Dashboard</h4>
-									<p class="mb-4">Here you can manage customer orders
-										efficiently.</p>
-									<h5 class="mb-3">A Quick Summary</h5>
+									<h4 class="mb-3">Welcome to your Dashboard</h4>
+									<p class="mb-4">Here you can view and manage your
+										customer's orders efficiently.</p>
+									<h5 class="mb-3">Work Summary</h5>
 
 									<!-- Updated summary items -->
 									<div class="d-flex flex-column gap-2">
-										<div class="border rounded p-2 bg-light shadow-sm">
+										<div
+											class="border border-primary rounded p-2 shadow-sm text-primary">
 											<strong>New Orders:</strong> <span id="new-order-count"
 												th:text="${newOrderCount}">0</span>
 										</div>
-										<div class="border rounded p-2 bg-light shadow-sm">
+										<div
+											class="border border-warning rounded p-2 shadow-sm text-warning">
 											<strong>In Progress:</strong> <span id="in-progress-count"
 												th:text="${inProgressCount}">0</span>
 										</div>
-										<div class="border rounded p-2 bg-light shadow-sm">
+										<div
+											class="border border-success rounded p-2 shadow-sm text-success">
 											<strong>Completed:</strong> <span id="completed-count"
 												th:text="${completedCount}">0</span>
 										</div>
@@ -169,116 +188,18 @@
 							</div>
 						</div>
 					</div>
+				</div>
 			</section>
 
 		</main>
 
 		<!-- Footer -->
 		<footer class="text-center mt-4">
-			<p class="text-muted">&copy; 2024 Bro Bono - Samosa Web App</p>
+			<p class="text-muted">
+				&copy; <span id="year"></span> Bro Bono - Samosa Web App
+			</p>
 		</footer>
 	</div>
-
-	<!-- ✅ Bootstrap Bundle JS -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-	</script>
-
-	<!-- Drag-and-Drop Logic -->
-	<!-- Drag-and-Drop Logic -->
-	<script>
-  const BASE_URL = "/samosawebapp";
-  function updateOrderSummary() {
-	  fetch(`${BASE_URL}/orders/summary`)
-	    .then(res => {
-	      if (!res.ok) throw new Error("Failed to fetch summary");
-	      return res.json();
-	    })
-	    .then(summary => {
-	      document.getElementById("new-order-count").textContent = summary.newOrders;
-	      document.getElementById("in-progress-count").textContent = summary.inProgress;
-	      document.getElementById("completed-count").textContent = summary.completed;
-	    })
-	    .catch(error => console.error("Summary update error:", error));
-	}
-  
-  function cancelOrder(orderId) {
-	  if (confirm("Cancel this order?")) {
-	    fetch(`${BASE_URL}/orders/${orderId}/archive`, { method: 'POST' })
-	      .then(res => {
-	        if (res.ok) {
-	          document.querySelector(`[data-order-id="${orderId}"]`).remove();
-	          updateOrderSummary();
-	        } else {
-	          alert("Failed to cancel.");
-	        }
-	      })
-	      .catch(error => console.error("Cancel error:", error));
-	  }
-	}
-
-	function archiveOrder(orderId) {
-	  if (confirm("Archive this order?")) {
-	    fetch(`${BASE_URL}/orders/${orderId}/archive`, { method: 'POST' })
-	      .then(res => {
-	        if (res.ok) {
-	          document.querySelector(`[data-order-id="${orderId}"]`).remove();
-	          updateOrderSummary();
-	        } else {
-	          alert("Failed to archive.");
-	        }
-	      })
-	      .catch(error => console.error("Archive error:", error));
-	  }
-	}
-
-
-  document.querySelectorAll('.order-box, #new-orders, #in-progress-orders, #completed-orders').forEach(box => {
-    box.addEventListener('dragover', event => event.preventDefault());
-
-    box.addEventListener('drop', event => {
-      event.preventDefault();
-      const orderId = event.dataTransfer.getData("id");
-      const draggedItem = document.querySelector(`[data-order-id='${orderId}']`);
-      if (!orderId || !draggedItem) return;
-
-      const newStatus = box.id.toUpperCase().replaceAll("-", " ").replace("ORDERS", "").trim();
-      box.appendChild(draggedItem);
-
-      fetch(`${BASE_URL}/orders/${orderId}/status?status=${encodeURIComponent(newStatus)}`, { method: "PUT" })
-        .then(res => {
-          if (!res.ok) throw new Error("Failed to update order status");
-          const button = draggedItem.querySelector("button.dropdown-item");
-          if (newStatus === "COMPLETED") {
-        	  button.textContent = "Archive";
-        	  button.onclick = () => archiveOrder(orderId);
-        	} else {
-        		button.textContent = "Cancel";
-        		button.onclick = () => cancelOrder(orderId);
-    		}
-          return res.json();
-        })
-        .then(() => fetch(`${BASE_URL}/orders/summary`))
-        .then(res => {
-          if (!res.ok) throw new Error("Failed to fetch summary counts");
-          return res.json();
-        })
-        .then(summary => {
-          document.getElementById("new-order-count").textContent = summary.newOrders;
-          document.getElementById("in-progress-count").textContent = summary.inProgress;
-          document.getElementById("completed-count").textContent = summary.completed;
-        })
-        .catch(error => console.error("Error:", error));
-    });
-  });
-
-  document.querySelectorAll('[draggable="true"]').forEach(item => {
-    item.addEventListener('dragstart', function (event) {
-      event.dataTransfer.setData("id", item.getAttribute('data-order-id'));
-    });
-  });
-</script>
-
-
+	<script th:src="@{/js/dashboard.js}"></script>
 </body>
 </html>

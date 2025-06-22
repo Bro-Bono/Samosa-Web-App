@@ -28,15 +28,18 @@ SamosaWebApp/
 │   │   ├── HomeController.java
 │   ├── models/
 │   │   ├── Order.java
+│   │   ├── ArchivedOrder.java
 │   ├── services/
 │   │   ├── OrderService.java
 │   │   ├── EmailService.java
 │   ├── repositories/
 │   │   ├── OrderRepository.java
+│   │   ├── ArchivedOrderRepository.java
 │── src/main/resources/
 │   ├── static/
 │   │   ├── css/
 │   │   │   ├── styles.css
+│   │   ├── js/
 │   ├── templates/
 │   │   ├── index.html
 │   │   ├── order-form.html
