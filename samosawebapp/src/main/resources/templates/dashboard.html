@@ -32,8 +32,9 @@
 							<!-- New Orders -->
 							<div class="col-md-4">
 								<div class="card shadow-sm position-relative">
-									<div class="card-header bg-primary text-white">
+									<div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
 										<h5 class="mb-0">New Orders</h5>
+										<span id="new-order-count-badge" class="badge bg-light text-primary" th:text="${newOrderCount}">0</span>
 									</div>
 									<div class="card-body" id="new-orders">
 										<div th:each="order : ${newOrders}"
@@ -75,8 +76,9 @@
 							<!-- In Progress Orders -->
 							<div class="col-md-4">
 								<div class="card shadow-sm">
-									<div class="card-header bg-warning text-dark">
+									<div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
 										<h5 class="mb-0">In Progress</h5>
+										<span id="in-progress-count-badge" class="badge bg-light text-primary" th:text="${inProgressCount}">0</span>
 									</div>
 									<div class="card-body" id="in-progress-orders">
 										<div th:each="order : ${inProgressOrders}"
@@ -117,8 +119,9 @@
 							<!-- Completed Orders -->
 							<div class="col-md-4">
 								<div class="card shadow-sm">
-									<div class="card-header bg-success text-white">
+									<div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
 										<h5 class="mb-0">Completed</h5>
+										<span id="completed-count-badge" class="badge bg-light text-primary" th:text="${completedCount}">0</span>
 									</div>
 									<div class="card-body" id="completed-orders">
 										<div th:each="order : ${completedOrders}"
