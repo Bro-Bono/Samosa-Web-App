@@ -156,6 +156,11 @@ document.querySelectorAll('.order-box, #new-orders, #in-progress-orders, #comple
 				document.getElementById("new-order-count").textContent = summary.newOrders;
 				document.getElementById("in-progress-count").textContent = summary.inProgress;
 				document.getElementById("completed-count").textContent = summary.completed;
+				
+				//counters for box columns
+				document.getElementById("new-order-count-badge").textContent = summary.newOrders;
+				document.getElementById("in-progress-count-badge").textContent = summary.inProgress;
+				document.getElementById("completed-count-badge").textContent = summary.completed;
 			})
 			.catch(error => console.error("Error:", error));
 	});
