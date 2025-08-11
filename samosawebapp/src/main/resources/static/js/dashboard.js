@@ -171,3 +171,67 @@ document.querySelectorAll('[draggable="true"]').forEach(item => {
 		event.dataTransfer.setData("id", item.getAttribute('data-order-id'));
 	});
 });
+
+
+
+
+document.addEventListener('dblclick', function (event) {
+	const tile = event.target.closest('.order-tile');
+	if (!tile) return;
+
+	const orderId = tile.getAttribute('data-order-id');
+	if (!orderId) return;
+
+	const modalBody = document.getElementById('orderModalBody');
+	modalBody.innerHTML = `<p>Loading details for Order #${orderId}...</p>`;
+
+	const modal = new bootstrap.Modal(document.getElementById('orderModal'));
+	modal.show();
+
+	// ✅ Update this URL to your backend order details API
+	fetch(`${BASE_URL}/orders/${orderId}`)
+	  .then(response => {
+	    if (!response.ok) throw new Error('Failed to fetch order details');
+	    return response.json();
+	  })
+	  .then(order => {
+	    modalBody.innerHTML = `
+		<div style="position: relative; min-height: 200px;">
+	      <h5>Order #${order.id}</h5>
+	      <p><strong>Customer Name:</strong> ${order.customerName}</p>
+	      <p><strong>Email:</strong> ${order.customerEmail}</p>
+	      <p><strong>Status:</strong> ${order.status}</p>
+	      <p><strong>Order Details:</strong> ${order.orderDetails}</p>
+	      <p><strong>Ordered At:</strong> ${new Date(order.orderedAt).toLocaleString()}</p>
+		  <!-- Floating edit button -->
+		  <button 
+		    id="editOrderIcon" 
+		    type="button" 
+		    class="btn btn-primary rounded-circle"
+		    style="position: absolute; bottom: 10px; right: 10px;">
+		    <i class="bi bi-pencil-square"></i>
+		  </button>
+		</div>
+	    `;
+		// Make edit button work
+			    document.getElementById('editOrderIcon').addEventListener('click', function () {
+			      editOrder(order.id); // reuse your existing function
+			    });
+				
+		})
+	  .catch(error => {
+	    console.error(error);
+	    modalBody.innerHTML = `<p class="text-danger">Unable to load order details.</p>`;
+	  });
+	  
+	  // Call your existing editOrder() function on click
+	  
+
+//	  <!--  id="editOrderIcon"
+	  	  		         //  style="position: absolute; bottom: -13px; right: 0px; cursor: pointer;"
+	  	  		          // title="Edit Order" -->
+					//	  th:onclick="editOrder('[[${order.id}]]')"
+
+});
+
+
