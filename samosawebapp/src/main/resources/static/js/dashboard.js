@@ -69,9 +69,11 @@ function editOrder(orderId) {
       document.getElementById("editOrderId").value = order.id;
       document.getElementById("editCustomerName").value = order.customerName;
       document.getElementById("editOrderDetails").value = order.orderDetails;
-
-      const modal = new bootstrap.Modal(document.getElementById("editOrderModal"));
-      modal.show();
+	//********************* */
+	//we no longer need to use the lines below because it is more like a hard code to show the modal when we are now able to jsut have
+	//it appear with the data-bs toggle
+      //const modal = new bootstrap.Modal(document.getElementById("editOrderModal"));
+      //modal.show();
     })
     .catch(err => console.error("Failed to fetch order:", err));
 }
@@ -171,3 +173,70 @@ document.querySelectorAll('[draggable="true"]').forEach(item => {
 		event.dataTransfer.setData("id", item.getAttribute('data-order-id'));
 	});
 });
+
+
+
+
+document.addEventListener('dblclick', function (event) {
+	const tile = event.target.closest('.order-tile');
+	if (!tile) return;
+
+	const orderId = tile.getAttribute('data-order-id');
+	if (!orderId) return;
+
+	const modalBody = document.getElementById('orderModalBody');
+	modalBody.innerHTML = `<p>Loading details for Order #${orderId}...</p>`;
+
+	const modal = new bootstrap.Modal(document.getElementById('orderModal'));
+	modal.show();
+
+	// ✅ Update this URL to your backend order details API
+	fetch(`${BASE_URL}/orders/${orderId}`)
+	  .then(response => {
+	    if (!response.ok) throw new Error('Failed to fetch order details');
+	    return response.json();
+	  })
+	  .then(order => {
+	    modalBody.innerHTML = `
+		<div style="position: relative; min-height: 200px;">
+	      <h5>Order #${order.id}</h5>
+	      <p><strong>Customer Name:</strong> ${order.customerName}</p>
+	      <p><strong>Email:</strong> ${order.customerEmail}</p>
+	      <p><strong>Status:</strong> ${order.status}</p>
+	      <p><strong>Order Details:</strong> ${order.orderDetails}</p>
+	      <p><strong>Ordered At:</strong> ${new Date(order.orderedAt).toLocaleString()}</p>
+		  <!-- Floating edit button -->
+		  <button 
+		    id="editOrderIcon" 
+		    type="button" 
+		    class="btn btn-primary rounded-circle"
+		    style="position: absolute; bottom: 10px; right: 10px;"
+			data-bs-toggle="modal"
+			data-bs-target="#editOrderModal">
+		    <i class="bi bi-pencil-square"></i>
+		  </button>
+		</div>
+	    `;
+		//	*****************
+		//We are still using 2 modals but now we have the ability to have the first modal disappear and allow for the edit modal 
+		//to be the only one we see. 
+		
+		//This is done thorugh the use of bootstraps "Toggle between Modals" from the documentation
+		//data-bs-toggle="modal"
+		//data-vs-target="#editOrderModal">  this one specifies which mdoal we want to appear assuming it has already been defined.
+		// Make edit button work
+			    document.getElementById('editOrderIcon').addEventListener('click', function () {
+			      editOrder(order.id); // reuse your existing function
+			    });
+				
+		})
+	  .catch(error => {
+	    console.error(error);
+	    modalBody.innerHTML = `<p class="text-danger">Unable to load order details.</p>`;
+	  });
+	  
+
+
+});
+
+

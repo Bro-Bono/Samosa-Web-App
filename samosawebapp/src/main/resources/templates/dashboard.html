@@ -13,6 +13,7 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
 </script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> <!--  this is the link for icons -->
 </head>
 <body class="bg-light">
 
@@ -27,7 +28,7 @@
 			<section id="dashboard">
 				<div class="row g-4">
 					<!-- Left side: Order columns -->
-					<div class="col-md-9">
+					<div class="col-md-9"> 
 						<div class="row g-4">
 							<!-- New Orders -->
 							<div class="col-md-4">
@@ -38,7 +39,7 @@
 									</div>
 									<div class="card-body" id="new-orders">
 										<div th:each="order : ${newOrders}"
-											class="order-item mb-3 p-2 border rounded bg-light position-relative"
+											class="order-item order-tile mb-3 p-2 border rounded bg-light position-relative"
 											th:data-order-id="${order.id}" draggable="true">
 											<!-- top-right square delete button -->
 											<div class="dropdown position-absolute top-0 end-0 m-2">
@@ -51,8 +52,11 @@
 														<button class="dropdown-item text-danger"
 															th:onclick="cancelOrder('[[${order.id}]]')">Cancel</button>
 														<button class="dropdown-item text-danger"
-															th:onclick="editOrder('[[${order.id}]]')">Edit</button>
-															
+																type="button"
+																th:onclick="editOrder('[[${order.id}]]')"
+																data-bs-toggle="modal"
+																data-bs-target="#editOrderModal">Edit</button>
+						<!-- ***REPEATED FOR ALL STATUSES --the button for edit now uses data-bs-toggle to cycle modals rather than only show one at a time -->
 													</li>
 												</ul>
 											</div>
@@ -82,7 +86,7 @@
 									</div>
 									<div class="card-body" id="in-progress-orders">
 										<div th:each="order : ${inProgressOrders}"
-											class="order-item mb-3 p-2 border rounded bg-light position-relative"
+											class="order-item order-tile mb-3 p-2 border rounded bg-light position-relative"
 											th:data-order-id="${order.id}" draggable="true">
 											<!-- top-right square delete button -->
 											<div class="dropdown position-absolute top-0 end-0 m-2">
@@ -95,7 +99,10 @@
 														<button class="dropdown-item text-danger"
 															th:onclick="cancelOrder('[[${order.id}]]')">Cancel</button>
 														<button class="dropdown-item text-danger"
-															th:onclick="editOrder('[[${order.id}]]')">Edit</button>
+																type="button"
+																th:onclick="editOrder('[[${order.id}]]')"
+																data-bs-toggle="modal"
+																data-bs-target="#editOrderModal">Edit</button>
 													</li>
 												</ul>
 											</div>
@@ -125,7 +132,7 @@
 									</div>
 									<div class="card-body" id="completed-orders">
 										<div th:each="order : ${completedOrders}"
-											class="order-item mb-3 p-2 border rounded bg-light position-relative"
+											class="order-item order-tile mb-3 p-2 border rounded bg-light position-relative"
 											th:data-order-id="${order.id}" draggable="true">
 											<!-- top-right square delete button -->
 											<div class="dropdown position-absolute top-0 end-0 m-2">
@@ -138,7 +145,10 @@
 														<button class="dropdown-item text-danger"
 															th:onclick="archiveOrder('[[${order.id}]]')">Archive</button>
 														<button class="dropdown-item text-danger"
-															th:onclick="editOrder('[[${order.id}]]')">Edit</button>
+																type="button"
+																th:onclick="editOrder('[[${order.id}]]')"
+																data-bs-toggle="modal"
+																data-bs-target="#editOrderModal">Edit</button>
 													</li>
 												</ul>
 											</div>
@@ -239,6 +249,24 @@
 		    </div>
 		  </div>
 		</div>
+		
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderModalLabel">Order Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		
+      </div>
+      <div class="modal-body" id="orderModalBody">
+      
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+</div>
+
+	
 	
 	<script th:src="@{/js/dashboard.js}"></script>
 </body>
