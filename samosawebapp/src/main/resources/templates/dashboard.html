@@ -28,7 +28,7 @@
 			<section id="dashboard">
 				<div class="row g-4">
 					<!-- Left side: Order columns -->
-					<div class="col-md-9">
+					<div class="col-md-9"> 
 						<div class="row g-4">
 							<!-- New Orders -->
 							<div class="col-md-4">
@@ -52,8 +52,11 @@
 														<button class="dropdown-item text-danger"
 															th:onclick="cancelOrder('[[${order.id}]]')">Cancel</button>
 														<button class="dropdown-item text-danger"
-															th:onclick="editOrder('[[${order.id}]]')">Edit</button>
-															
+																type="button"
+																th:onclick="editOrder('[[${order.id}]]')"
+																data-bs-toggle="modal"
+																data-bs-target="#editOrderModal">Edit</button>
+						<!-- ***REPEATED FOR ALL STATUSES --the button for edit now uses data-bs-toggle to cycle modals rather than only show one at a time -->
 													</li>
 												</ul>
 											</div>
@@ -96,7 +99,10 @@
 														<button class="dropdown-item text-danger"
 															th:onclick="cancelOrder('[[${order.id}]]')">Cancel</button>
 														<button class="dropdown-item text-danger"
-															th:onclick="editOrder('[[${order.id}]]')">Edit</button>
+																type="button"
+																th:onclick="editOrder('[[${order.id}]]')"
+																data-bs-toggle="modal"
+																data-bs-target="#editOrderModal">Edit</button>
 													</li>
 												</ul>
 											</div>
@@ -139,7 +145,10 @@
 														<button class="dropdown-item text-danger"
 															th:onclick="archiveOrder('[[${order.id}]]')">Archive</button>
 														<button class="dropdown-item text-danger"
-															th:onclick="editOrder('[[${order.id}]]')">Edit</button>
+																type="button"
+																th:onclick="editOrder('[[${order.id}]]')"
+																data-bs-toggle="modal"
+																data-bs-target="#editOrderModal">Edit</button>
 													</li>
 												</ul>
 											</div>

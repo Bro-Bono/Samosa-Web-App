@@ -69,9 +69,11 @@ function editOrder(orderId) {
       document.getElementById("editOrderId").value = order.id;
       document.getElementById("editCustomerName").value = order.customerName;
       document.getElementById("editOrderDetails").value = order.orderDetails;
-
-      const modal = new bootstrap.Modal(document.getElementById("editOrderModal"));
-      modal.show();
+	//********************* */
+	//we no longer need to use the lines below because it is more like a hard code to show the modal when we are now able to jsut have
+	//it appear with the data-bs toggle
+      //const modal = new bootstrap.Modal(document.getElementById("editOrderModal"));
+      //modal.show();
     })
     .catch(err => console.error("Failed to fetch order:", err));
 }
@@ -208,11 +210,20 @@ document.addEventListener('dblclick', function (event) {
 		    id="editOrderIcon" 
 		    type="button" 
 		    class="btn btn-primary rounded-circle"
-		    style="position: absolute; bottom: 10px; right: 10px;">
+		    style="position: absolute; bottom: 10px; right: 10px;"
+			data-bs-toggle="modal"
+			data-bs-target="#editOrderModal">
 		    <i class="bi bi-pencil-square"></i>
 		  </button>
 		</div>
 	    `;
+		//	*****************
+		//We are still using 2 modals but now we have the ability to have the first modal disappear and allow for the edit modal 
+		//to be the only one we see. 
+		
+		//This is done thorugh the use of bootstraps "Toggle between Modals" from the documentation
+		//data-bs-toggle="modal"
+		//data-vs-target="#editOrderModal">  this one specifies which mdoal we want to appear assuming it has already been defined.
 		// Make edit button work
 			    document.getElementById('editOrderIcon').addEventListener('click', function () {
 			      editOrder(order.id); // reuse your existing function
@@ -224,13 +235,7 @@ document.addEventListener('dblclick', function (event) {
 	    modalBody.innerHTML = `<p class="text-danger">Unable to load order details.</p>`;
 	  });
 	  
-	  // Call your existing editOrder() function on click
-	  
 
-//	  <!--  id="editOrderIcon"
-	  	  		         //  style="position: absolute; bottom: -13px; right: 0px; cursor: pointer;"
-	  	  		          // title="Edit Order" -->
-					//	  th:onclick="editOrder('[[${order.id}]]')"
 
 });
 
